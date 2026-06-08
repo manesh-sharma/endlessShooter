@@ -26,7 +26,7 @@ int main()
             }
         }
 
-        player.update(deltaTime);
+        player.update(deltaTime, window);
 
         window.clear();
 
