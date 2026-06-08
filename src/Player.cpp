@@ -4,14 +4,16 @@
 Player::Player()
 {
     shape.setRadius(25.f);
-    shape.setFillColor(sf::Color::Green);  //player color
+    shape.setFillColor(sf::Color::Green);
 
     shape.setPosition({800.f, 450.f});
 
     speed = 400.f;
 
+    health = 100;
+
     gun.setSize({40.f, 4.f});
-    gun.setFillColor(sf::Color::White); //gun color
+    gun.setFillColor(sf::Color::White);
 
     gun.setOrigin({0.f, 2.f});
 }
@@ -81,4 +83,24 @@ sf::Vector2f Player::getDirection() const
         std::cos(angle),
         std::sin(angle)
     };
+}
+
+void Player::takeDamage(int damage)
+{
+    health -= damage;
+
+    if (health < 0)
+    {
+        health = 0;
+    }
+}
+
+int Player::getHealth() const
+{
+    return health;
+}
+
+float Player::getRadius() const
+{
+    return shape.getRadius();
 }

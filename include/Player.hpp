@@ -9,6 +9,7 @@ private:
     sf::RectangleShape gun;
 
     float speed;
+    int health;
 
 public:
     Player();
@@ -20,4 +21,10 @@ public:
     sf::Vector2f getCenter() const;
 
     sf::Vector2f getDirection() const;
+
+    void takeDamage(int damage);
+
+    int getHealth() const;
+
+    float getRadius() const;
 };
