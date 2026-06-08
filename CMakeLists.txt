@@ -9,6 +9,7 @@ find_package(SFML 3 REQUIRED COMPONENTS Graphics Window System)
 add_executable(EndlessShooter
     src/main.cpp
     src/Player.cpp
+    src/Bullet.cpp
 )
 
 target_link_libraries(EndlessShooter
