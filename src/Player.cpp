@@ -4,14 +4,14 @@
 Player::Player()
 {
     shape.setRadius(25.f);
-    shape.setFillColor(sf::Color::Green);
+    shape.setFillColor(sf::Color::Green);  //player color
 
     shape.setPosition({800.f, 450.f});
 
     speed = 400.f;
 
     gun.setSize({40.f, 4.f});
-    gun.setFillColor(sf::Color::White);
+    gun.setFillColor(sf::Color::White); //gun color
 
     gun.setOrigin({0.f, 2.f});
 }

@@ -4,6 +4,7 @@
 
 #include "../include/Player.hpp"
 #include "../include/Bullet.hpp"
+#include "../include/Enemy.hpp"
 
 int main()
 {
@@ -17,9 +18,13 @@ int main()
     Player player;
 
     std::vector<Bullet> bullets;
+    std::vector<Enemy> enemies;
 
     float fireCooldown = 0.15f;
     float fireTimer = 0.f;
+
+    float enemySpawnTimer = 0.f;
+    float enemySpawnCooldown = 2.f;
 
     sf::Clock clock;
 
@@ -29,6 +34,7 @@ int main()
             clock.restart().asSeconds();
 
         fireTimer += deltaTime;
+        enemySpawnTimer += deltaTime;
 
         while (const auto event = window.pollEvent())
         {
@@ -40,6 +46,50 @@ int main()
 
         player.update(deltaTime, window);
 
+        // Spawn enemies
+        if (enemySpawnTimer >= enemySpawnCooldown)
+        {
+            int side = rand() % 4;
+
+            sf::Vector2f spawnPos;
+
+            switch (side)
+            {
+            case 0:
+                spawnPos = {
+                    0.f,
+                    static_cast<float>(rand() % 900)
+                };
+                break;
+
+            case 1:
+                spawnPos = {
+                    1600.f,
+                    static_cast<float>(rand() % 900)
+                };
+                break;
+
+            case 2:
+                spawnPos = {
+                    static_cast<float>(rand() % 1600),
+                    0.f
+                };
+                break;
+
+            default:
+                spawnPos = {
+                    static_cast<float>(rand() % 1600),
+                    900.f
+                };
+                break;
+            }
+
+            enemies.emplace_back(spawnPos);
+
+            enemySpawnTimer = 0.f;
+        }
+
+        // Automatic shooting
         if (sf::Mouse::isButtonPressed(
                 sf::Mouse::Button::Left) &&
             fireTimer >= fireCooldown)
@@ -52,11 +102,22 @@ int main()
             fireTimer = 0.f;
         }
 
+        // Update bullets
         for (auto& bullet : bullets)
         {
             bullet.update(deltaTime);
         }
 
+        // Update enemies
+        for (auto& enemy : enemies)
+        {
+            enemy.update(
+                deltaTime,
+                player.getCenter()
+            );
+        }
+
+        // Remove off-screen bullets
         bullets.erase(
             std::remove_if(
                 bullets.begin(),
@@ -70,11 +131,19 @@ int main()
 
         window.clear();
 
+        // Draw bullets
         for (auto& bullet : bullets)
         {
             bullet.draw(window);
         }
 
+        // Draw enemies
+        for (auto& enemy : enemies)
+        {
+            enemy.draw(window);
+        }
+
+        // Draw player
         player.draw(window);
 
         window.display();

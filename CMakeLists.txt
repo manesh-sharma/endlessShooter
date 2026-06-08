@@ -10,6 +10,7 @@ add_executable(EndlessShooter
     src/main.cpp
     src/Player.cpp
     src/Bullet.cpp
+    src/Enemy.cpp
 )
 
 target_link_libraries(EndlessShooter
