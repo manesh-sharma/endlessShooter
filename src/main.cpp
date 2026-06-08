@@ -1,7 +1,9 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <iostream>
 #include <algorithm>
 #include <cmath>
+#include <string>
 
 #include "../include/Player.hpp"
 #include "../include/Bullet.hpp"
@@ -27,7 +29,23 @@ int main()
     float enemySpawnTimer = 0.f;
     float enemySpawnCooldown = 2.f;
 
+    int score = 0;
+
     sf::Clock clock;
+
+    sf::Font font;
+
+    if (!font.openFromFile("assets/ARLRDBD.TTF"))
+    {
+        std::cout << "Font failed to load\n";
+        return -1;
+    }
+
+    sf::Text scoreText(font);
+
+    scoreText.setCharacterSize(32);
+    scoreText.setFillColor(sf::Color::White);
+    scoreText.setPosition({20.f, 20.f});
 
     while (window.isOpen())
     {
@@ -165,6 +183,8 @@ int main()
                         enemies.erase(
                             enemies.begin()
                             + enemyIndex);
+
+                        score++;
                     }
 
                     break;
@@ -189,6 +209,11 @@ int main()
             bullets.end()
         );
 
+        scoreText.setString(
+            "Score: " +
+            std::to_string(score)
+        );
+
         window.clear();
 
         // Draw bullets
@@ -205,6 +230,8 @@ int main()
 
         // Draw player
         player.draw(window);
+
+        window.draw(scoreText);
 
         window.display();
     }
