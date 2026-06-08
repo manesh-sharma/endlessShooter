@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 find_package(SFML 3 REQUIRED COMPONENTS Graphics Window System)
 
-add_executable(EndlessShooter
+add_executable(EndlessShooter WIN32
     src/main.cpp
     src/Player.cpp
     src/Bullet.cpp
