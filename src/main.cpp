@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <algorithm>
+#include <cmath>
 
 #include "../include/Player.hpp"
 #include "../include/Bullet.hpp"
@@ -56,28 +57,32 @@ int main()
             switch (side)
             {
             case 0:
-                spawnPos = {
+                spawnPos =
+                {
                     0.f,
                     static_cast<float>(rand() % 900)
                 };
                 break;
 
             case 1:
-                spawnPos = {
+                spawnPos =
+                {
                     1600.f,
                     static_cast<float>(rand() % 900)
                 };
                 break;
 
             case 2:
-                spawnPos = {
+                spawnPos =
+                {
                     static_cast<float>(rand() % 1600),
                     0.f
                 };
                 break;
 
             default:
-                spawnPos = {
+                spawnPos =
+                {
                     static_cast<float>(rand() % 1600),
                     900.f
                 };
@@ -115,6 +120,61 @@ int main()
                 deltaTime,
                 player.getCenter()
             );
+        }
+
+        // Bullet vs Enemy collision
+        for (size_t bulletIndex = 0;
+             bulletIndex < bullets.size();)
+        {
+            bool bulletRemoved = false;
+
+            for (size_t enemyIndex = 0;
+                 enemyIndex < enemies.size();
+                 ++enemyIndex)
+            {
+                sf::Vector2f bulletPos =
+                    bullets[bulletIndex].getPosition();
+
+                sf::Vector2f enemyPos =
+                    enemies[enemyIndex].getCenter();
+
+                float dx =
+                    bulletPos.x - enemyPos.x;
+
+                float dy =
+                    bulletPos.y - enemyPos.y;
+
+                float distance =
+                    std::sqrt(dx * dx + dy * dy);
+
+                if (distance <
+                    enemies[enemyIndex].getRadius())
+                {
+                    bool enemyDead =
+                        enemies[enemyIndex]
+                        .takeDamage(40);
+
+                    bullets.erase(
+                        bullets.begin()
+                        + bulletIndex);
+
+                    bulletRemoved = true;
+
+                    if (enemyDead)
+                    {
+                        enemies.erase(
+                            enemies.begin()
+                            + enemyIndex);
+                    }
+
+                    break;
+                }
+            }
+
+            if (!bulletRemoved)
+            {
+                ++bulletIndex;
+            }
         }
 
         // Remove off-screen bullets

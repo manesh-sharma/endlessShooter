@@ -31,3 +31,8 @@ bool Bullet::isOffScreen() const
            pos.y < 0 ||
            pos.y > 900;
 }
+
+sf::Vector2f Bullet::getPosition() const
+{
+    return shape.getPosition();
+}

@@ -7,6 +7,7 @@ class Enemy
 private:
     sf::CircleShape shape;
     float speed;
+    int health;
 
 public:
     Enemy(sf::Vector2f startPosition);
@@ -19,4 +20,8 @@ public:
     void draw(sf::RenderWindow& window);
 
     sf::Vector2f getCenter() const;
+
+    float getRadius() const;
+
+    bool takeDamage(int damage);
 };

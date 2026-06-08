@@ -19,4 +19,6 @@ public:
     void draw(sf::RenderWindow& window);
 
     bool isOffScreen() const;
+
+    sf::Vector2f getPosition() const;
 };

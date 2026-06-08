@@ -9,6 +9,7 @@ Enemy::Enemy(sf::Vector2f startPosition)
     shape.setPosition(startPosition);
 
     speed = 150.f;
+    health = 40;
 }
 
 void Enemy::update(
@@ -53,4 +54,16 @@ sf::Vector2f Enemy::getCenter() const
         shape.getPosition().x + shape.getRadius(),
         shape.getPosition().y + shape.getRadius()
     };
+}
+
+float Enemy::getRadius() const
+{
+    return shape.getRadius();
+}
+
+bool Enemy::takeDamage(int damage)
+{
+    health -= damage;
+
+    return health <= 0;
 }
